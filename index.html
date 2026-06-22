@@ -1109,8 +1109,9 @@ function renderGames(lang){
   gamesGrid.innerHTML = gameCardHTML(lang);
   const t = translations[lang] || translations.en;
   const dlBtn = gamesGrid.querySelector('.dl-btn');
-  if(dlBtn.tagName === 'BUTTON'){ dlBtn.addEventListener('click', ()=> showToast(t.download_soon)); }
-  gamesGrid.querySelector('.details-btn').addEventListener('click', (e)=> openGameModal(lang, e.currentTarget));
+  if(dlBtn && dlBtn.tagName === 'BUTTON'){ dlBtn.addEventListener('click', ()=> showToast(t.download_soon)); }
+  const detailsBtn = gamesGrid.querySelector('.details-btn');
+  if(detailsBtn){ detailsBtn.addEventListener('click', (e)=> openGameModal(lang, e.currentTarget)); }
   initTilt(gamesGrid.querySelectorAll('.game-card'));
 }
 function initTilt(cards){
@@ -1179,7 +1180,6 @@ function openGameModal(lang, triggerEl){
   gameModalPanel.querySelectorAll('.download-btn').forEach(b=>{
     if(b.tagName === 'BUTTON'){ b.addEventListener('click', ()=>showToast(`${b.dataset.os} ${g.buildSoon}`)); }
   });
-  gameModalPanel.querySelector('#trailer-frame').addEventListener('click', ()=>showToast(g.trailerSoon));
   gameModal.scrollTop = 0;
   gameModal.classList.add('open');
   document.body.style.overflow = 'hidden';
