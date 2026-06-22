@@ -1110,7 +1110,6 @@ function renderGames(lang){
   const t = translations[lang] || translations.en;
   const dlBtn = gamesGrid.querySelector('.dl-btn');
   if(dlBtn.tagName === 'BUTTON'){ dlBtn.addEventListener('click', ()=> showToast(t.download_soon)); }
-  gamesGrid.querySelector('.trailer-btn').addEventListener('click', ()=> showToast(t.game_trailer_soon));
   gamesGrid.querySelector('.details-btn').addEventListener('click', (e)=> openGameModal(lang, e.currentTarget));
   initTilt(gamesGrid.querySelectorAll('.game-card'));
 }
