@@ -1171,7 +1171,9 @@ function openGameModal(lang, triggerEl){
       <h3 class="modal-section-title">${t.modal_features}</h3>
       <div class="feature-grid">${g.features.map(f=>`<div class="feature-card">${icon(f.icon)}<h4>${f.t}</h4><p>${f.d}</p></div>`).join('')}</div>
       <h3 class="modal-section-title">${t.modal_trailer_h}</h3>
-      <button type="button" class="trailer-frame" id="trailer-frame" aria-label="${t.modal_trailer_h}"><span class="play-btn">${icon('play')}</span></button>
+      <div class="trailer-frame" style="width:100%; aspect-ratio:16/9; border:none; background:#000; cursor:default; display:flex; align-items:center; justify-content:center;">
+        <iframe src="https://sabanik.github.io/play/" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen" loading="lazy" title="Cosmic Code: Yandere - Web Demo"></iframe>
+      </div>
       <h3 class="modal-section-title">${t.modal_download_h}</h3>
       <div class="download-grid">${downloadGridHTML}</div>
     </div>`;
