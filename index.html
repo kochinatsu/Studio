@@ -1056,9 +1056,9 @@ setInterval(()=>{
 /* Fill in real URLs as builds become available. Leave a platform as null/empty
    to keep its button showing a translated "coming soon" toast instead of a link. */
 const DOWNLOAD_LINKS = {
-  Windows: 'https://mega.nz/file/RZ0GkaAK#tl1lhww2aWsBlk3UxXcLL3W9cwfrZdGbgtfls8yPYE8',
-  macOS: 'https://mega.nz/file/cdFS2SbY#8U9KXDgw9T5sqgVMqFPrW9CG27M9LtPHMC_Z57pzmrY',
-  Linux: 'https://mega.nz/file/IdtyXQyR#NmaIbPv9FWjNk9fiLHxvCTWhqH4Uz1QALE5MXQ1huSY',
+  Windows: 'https://mega.nz/file/pYUUjJDD#_Lmd2YYoOZI-UCAIODyZGLi_Fqk4YYWNwrpYwgPSJso',
+  macOS: 'https://mega.nz/file/YM1HwQoA#fctfNg1eQj7-A3Rq41yoF8dd5o5-l02EGm1YdODTaqc',
+  Linux: 'https://mega.nz/file/pcNjlYhR#hmnLQyTdnP41QF9jpwi1gQ21GxiS5p6t1WsjxbXLND8',
   Android: null,
 };
 const GAME_META = { id:'cosmiccode', title:'Cosmic Code: Yandere', genre:'Visual Novel', engine:'Ren\'Py', version:'v1.0-demo', status:'Demo', statusClass:'released', icon:'C', banner:1, releaseDate:'2026', downloads:DOWNLOAD_LINKS };
@@ -1171,7 +1171,15 @@ function openGameModal(lang, triggerEl){
       <div class="feature-grid">${g.features.map(f=>`<div class="feature-card">${icon(f.icon)}<h4>${f.t}</h4><p>${f.d}</p></div>`).join('')}</div>
       <h3 class="modal-section-title">${t.modal_trailer_h}</h3>
       <div class="trailer-frame" style="width:100%; aspect-ratio:16/9; border:none; background:#000; display:flex; align-items:center; justify-content:center; position:relative;">
-  <iframe src="https://kochinatsu.github.io/cosmic-code-yandere/" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen; accelerometer; gyroscope;" loading="lazy" title="Cosmic Code: Yandere - Web Demo" allowfullscreen></iframe>
+  
+  <!-- iframe بازی -->
+  <iframe id="gameIframe" src="https://kochinatsu.github.io/cosmic-code-yandere/" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen; accelerometer; gyroscope;" loading="lazy" title="Cosmic Code: Yandere - Web Demo" allowfullscreen></iframe>
+
+  <!-- دکمه فول‌اسکرین -->
+  <button id="fullscreenBtn" style="position:absolute; bottom:20px; right:20px; background:rgba(0,0,0,0.7); color:white; border:1px solid rgba(255,255,255,0.3); padding:10px 18px; border-radius:8px; cursor:pointer; z-index:10; font-family:inherit; font-size:14px; backdrop-filter:blur(4px); transition:all 0.3s;" onmouseover="this.style.background='rgba(192,26,61,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.7)'">
+    ⛶ Fullscreen
+  </button>
+
 </div>
       <h3 class="modal-section-title">${t.modal_download_h}</h3>
       <div class="download-grid">${downloadGridHTML}</div>
@@ -1277,6 +1285,24 @@ setLanguage(translations[savedLang] ? savedLang : 'en');
 
 console.log('%c KO_CHINATSU ','background:#7a1025;color:#fff;font-family:monospace;padding:4px 8px;');
 })();
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const gameIframe = document.getElementById('gameIframe');
+
+    if (fullscreenBtn && gameIframe) {
+      fullscreenBtn.addEventListener('click', function() {
+        if (gameIframe.requestFullscreen) {
+          gameIframe.requestFullscreen();
+        } else if (gameIframe.webkitRequestFullscreen) {
+          gameIframe.webkitRequestFullscreen();
+        } else if (gameIframe.msRequestFullscreen) {
+          gameIframe.msRequestFullscreen();
+        }
+      });
+    }
+  });
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
