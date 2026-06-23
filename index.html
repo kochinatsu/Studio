@@ -1296,29 +1296,33 @@ console.log('%c KO_CHINATSU ','background:#7a1025;color:#fff;font-family:monospa
 </script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const playBtn = document.getElementById('playBtn');
-    const playOverlay = document.getElementById('playOverlay');
-    const gameIframe = document.getElementById('gameIframe');
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    setTimeout(function() {
+      const playBtn = document.getElementById('playBtn');
+      const playOverlay = document.getElementById('playOverlay');
+      const gameIframe = document.getElementById('gameIframe');
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-    playBtn.addEventListener('click', function() {
-      playOverlay.style.opacity = '0';
-      setTimeout(function() {
-        playOverlay.style.display = 'none';
-      }, 500);
-      
-      gameIframe.style.display = 'block';
-      fullscreenBtn.style.display = 'block';
-      gameIframe.src = gameIframe.src;
-    });
-
-    fullscreenBtn.addEventListener('click', function() {
-      if (gameIframe.requestFullscreen) {
-        gameIframe.requestFullscreen();
-      } else if (gameIframe.webkitRequestFullscreen) {
-        gameIframe.webkitRequestFullscreen();
+      if (playBtn) {
+        playBtn.addEventListener('click', function() {
+          playOverlay.style.opacity = '0';
+          setTimeout(function() {
+            playOverlay.style.display = 'none';
+          }, 500);
+          gameIframe.style.display = 'block';
+          fullscreenBtn.style.display = 'block';
+        });
       }
-    });
+
+      if (fullscreenBtn) {
+        fullscreenBtn.addEventListener('click', function() {
+          if (gameIframe.requestFullscreen) {
+            gameIframe.requestFullscreen();
+          } else if (gameIframe.webkitRequestFullscreen) {
+            gameIframe.webkitRequestFullscreen();
+          }
+        });
+      }
+    }, 200);
   });
 </script>
 </body>
