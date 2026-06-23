@@ -319,6 +319,7 @@ footer{ border-top:1px solid var(--line); padding:54px 0 36px; }
 #toast{ position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(20px); z-index:4000; background:var(--carbon); border:1px solid var(--ember-bright); padding:14px 24px; border-radius:30px; font-family:var(--font-mono); font-size:13px; opacity:0; transition:all .3s; pointer-events:none; max-width:90vw; text-align:center; }
 #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
 </style>
+<link rel="icon" href="favicon.png" type="image/png" />
 </head>
 <body>
 
@@ -1059,7 +1060,6 @@ const DOWNLOAD_LINKS = {
   Windows: 'https://mega.nz/file/pYUUjJDD#_Lmd2YYoOZI-UCAIODyZGLi_Fqk4YYWNwrpYwgPSJso',
   macOS: 'https://mega.nz/file/YM1HwQoA#fctfNg1eQj7-A3Rq41yoF8dd5o5-l02EGm1YdODTaqc',
   Linux: 'https://mega.nz/file/pcNjlYhR#hmnLQyTdnP41QF9jpwi1gQ21GxiS5p6t1WsjxbXLND8',
-  Android: null,
 };
 const GAME_META = { id:'cosmiccode', title:'Cosmic Code: Yandere', genre:'Visual Novel', engine:'Ren\'Py', version:'v1.0-demo', status:'Demo', statusClass:'released', icon:'C', banner:1, releaseDate:'2026', downloads:DOWNLOAD_LINKS };
 function getGameData(lang){
@@ -1149,7 +1149,7 @@ function openGameModal(lang, triggerEl){
   const t = translations[lang] || translations.en;
   const g = getGameData(lang);
   modalTriggerEl = triggerEl || null;
-  const platforms = ['Windows','macOS','Linux','Android'];
+  const platforms = ['Windows','macOS','Linux'];
   const downloadGridHTML = platforms.map(os=>{
     const link = g.downloads && g.downloads[os];
     return link
@@ -1176,15 +1176,28 @@ function openGameModal(lang, triggerEl){
   <iframe id="gameIframe" src="https://kochinatsu.github.io/cosmic-code-yandere/" style="width:100%; height:100%; border:none;" allow="autoplay; fullscreen; accelerometer; gyroscope;" loading="lazy" title="Cosmic Code: Yandere - Web Demo" allowfullscreen></iframe>
 
   <!-- دکمه فول‌اسکرین -->
-  <button id="fullscreenBtn" style="position:absolute; bottom:20px; right:20px; background:rgba(0,0,0,0.7); color:white; border:1px solid rgba(255,255,255,0.3); padding:10px 18px; border-radius:8px; cursor:pointer; z-index:10; font-family:inherit; font-size:14px; backdrop-filter:blur(4px); transition:all 0.3s;" onmouseover="this.style.background='rgba(192,26,61,0.8)'" onmouseout="this.style.background='rgba(0,0,0,0.7)'">
-    ⛶ Fullscreen
-  </button>
+  <!-- دکمه فول‌اسکرین -->
+<button id="fullscreenBtn" style="position:absolute; bottom:20px; right:20px; background:rgba(192,26,61,0.85); color:white; border:2px solid white; padding:12px 20px; border-radius:8px; cursor:pointer; z-index:9999; font-family:inherit; font-size:16px; font-weight:bold; backdrop-filter:blur(4px); box-shadow:0 0 20px rgba(192,26,61,0.5); transition:all 0.3s;">
+  ⛶ Fullscreen
+</button>
 
 </div>
       <h3 class="modal-section-title">${t.modal_download_h}</h3>
       <div class="download-grid">${downloadGridHTML}</div>
     </div>`;
   gameModalPanel.querySelector('#game-modal-close').addEventListener('click', closeGameModal);
+
+  /* ---------- fullscreen button ---------- */
+  const fullscreenBtn = gameModalPanel.querySelector('#fullscreenBtn');
+  if(fullscreenBtn){
+    fullscreenBtn.addEventListener('click', function(){
+      const iframe = gameModalPanel.querySelector('#gameIframe');
+      const target = iframe || document.documentElement;
+      const reqFS = target.requestFullscreen || target.webkitRequestFullscreen || target.mozRequestFullScreen || target.msRequestFullscreen;
+      if(reqFS){ reqFS.call(target).catch(()=>{}); }
+      else { alert('مرورگر شما از Fullscreen پشتیبانی نمیکند. لطفاً از کلید F11 استفاده کنید.'); }
+    });
+  }
   gameModalPanel.querySelectorAll('.download-btn').forEach(b=>{
     if(b.tagName === 'BUTTON'){ b.addEventListener('click', ()=>showToast(`${b.dataset.os} ${g.buildSoon}`)); }
   });
@@ -1286,54 +1299,6 @@ setLanguage(translations[savedLang] ? savedLang : 'en');
 console.log('%c KO_CHINATSU ','background:#7a1025;color:#fff;font-family:monospace;padding:4px 8px;');
 })();
 </script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const gameIframe = document.getElementById('gameIframe');
 
-    if (fullscreenBtn && gameIframe) {
-      fullscreenBtn.addEventListener('click', function() {
-        if (gameIframe.requestFullscreen) {
-          gameIframe.requestFullscreen();
-        } else if (gameIframe.webkitRequestFullscreen) {
-          gameIframe.webkitRequestFullscreen();
-        } else if (gameIframe.msRequestFullscreen) {
-          gameIframe.msRequestFullscreen();
-        }
-      });
-    }
-  });
-</script>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-      const playBtn = document.getElementById('playBtn');
-      const playOverlay = document.getElementById('playOverlay');
-      const gameIframe = document.getElementById('gameIframe');
-      const fullscreenBtn = document.getElementById('fullscreenBtn');
-
-      if (playBtn) {
-        playBtn.addEventListener('click', function() {
-          playOverlay.style.opacity = '0';
-          setTimeout(function() {
-            playOverlay.style.display = 'none';
-          }, 500);
-          gameIframe.style.display = 'block';
-          fullscreenBtn.style.display = 'block';
-        });
-      }
-
-      if (fullscreenBtn) {
-        fullscreenBtn.addEventListener('click', function() {
-          if (gameIframe.requestFullscreen) {
-            gameIframe.requestFullscreen();
-          } else if (gameIframe.webkitRequestFullscreen) {
-            gameIframe.webkitRequestFullscreen();
-          }
-        });
-      }
-    }, 200);
-  });
-</script>
 </body>
 </html>
